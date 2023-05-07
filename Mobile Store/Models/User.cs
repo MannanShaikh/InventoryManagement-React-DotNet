@@ -1,9 +1,10 @@
 ﻿using Mobile_Store.Interfaces;
 using Mobile_Store.Structures;
+using System.ComponentModel.DataAnnotations;
 
 namespace Mobile_Store.Models
 {
-    class User : IPerson
+    public class User : IPerson
     {
         #region LookUpTable
         /// <summary>
@@ -27,6 +28,8 @@ namespace Mobile_Store.Models
         public Role RoleId { get; set; }
         public DateOnly? DateOfBirth { get; set; }
         public bool Permission { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
         #endregion
 
         #region Public Methods
