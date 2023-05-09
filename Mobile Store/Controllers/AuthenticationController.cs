@@ -7,13 +7,22 @@ namespace Mobile_Store.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
+
+        #region Test
+        [HttpGet(Name = "Test")]
+        public string Get()
+        {
+            return "Hello World";
+        }
+        #endregion
+
         #region Check Authentication
         /// <summary>
         /// Method to verify user
         /// </summary>
         /// <param name="user"> User type object </param>
-        /// <returns> Returns true if user is authentic </returns>
-        [HttpGet("Check Authentication")]
+        /// <returns> Returns true if user is authentic/genuine </returns>
+        [HttpPost("CheckAuthentication")]
         public bool CheckAuthentication([FromBody] User user)
         {
             return true;
@@ -26,7 +35,7 @@ namespace Mobile_Store.Controllers
         /// </summary>
         /// <param name="user"> User Type object </param>
         /// <returns> Returns true if credientials are successfully changed </returns>
-        [HttpPost("Change User Credientials")]
+        [HttpPost("ChangeUserCredentials")]
         public bool ChangeUserCredentials([FromBody] User user)
         {
             return true;
@@ -35,7 +44,7 @@ namespace Mobile_Store.Controllers
 
         #region Reset Credentials
         
-        [HttpPost("Reset Credentials")]
+        [HttpPost("ResetCredentials")]
         public void ResetCredentials([FromBody] User user)
         {
 

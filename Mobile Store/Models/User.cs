@@ -28,8 +28,8 @@ namespace Mobile_Store.Models
         public Role RoleId { get; set; }
         public DateOnly? DateOfBirth { get; set; }
         public bool Permission { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
+        public string? UserName { get; set; }
+        public string? Password { get; set; }
         #endregion
 
         #region Public Methods
