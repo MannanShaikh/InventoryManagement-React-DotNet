@@ -22,7 +22,7 @@ namespace Mobile_Store.Models
         /// </summary>
         /// <param name="id"></param>
         /// <returns> Boolean Value based on task completion </returns>
-        public bool AddCustomer(int id)
+        public bool AddCustomer(Customer customer)
         {
             return true;
         }
@@ -32,7 +32,7 @@ namespace Mobile_Store.Models
         /// </summary>
         /// <param name="id"></param>
         /// <returns> Boolean Value based on task completion </returns>
-        public bool EditCustomer(int id)
+        public bool EditCustomer(Customer customer)
         {
             return true;
         }
@@ -42,7 +42,7 @@ namespace Mobile_Store.Models
         /// </summary>
         /// <param name="id"></param>
         /// <returns> Boolean Value based on task completion </returns>
-        public bool DeleteCustomer(int id)
+        public bool DeleteCustomer(Customer customer)
         {
             return true;
         }
@@ -52,7 +52,7 @@ namespace Mobile_Store.Models
         /// </summary>
         /// <param name="id"></param>
         /// <returns> customer type object, with the fetched details </returns>
-        public Customer SearchCustomer(int id)
+        public Customer SearchCustomer(Customer customer)
         {
             return new Customer() { ID = Guid.NewGuid(), Name = new Name() { FirstName = "", MiddleName = null, LastName = ""}, Address = new Address() { State = "", City = "" }, Email = "" };
         }

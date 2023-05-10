@@ -38,7 +38,7 @@ namespace Mobile_Store.Models
         /// </summary>
         /// <param name="id"></param>
         /// <returns> Boolean Value based on task completion </returns>
-        public bool AddUser(int id)
+        public bool AddUser(User user)
         {
             return true;
         }
@@ -48,7 +48,7 @@ namespace Mobile_Store.Models
         /// </summary>
         /// <param name="id"></param>
         /// <returns> Boolean Value based on task completion </returns>
-        public bool EditUser(int id)
+        public bool EditUser(User user)
         {
             return true;
         }
@@ -58,7 +58,7 @@ namespace Mobile_Store.Models
         /// </summary>
         /// <param name="id"></param>
         /// <returns> Boolean Value based on task completion </returns>
-        public bool DeleteUser(int id)
+        public bool DeleteUser(User user)
         {
             return true;
         }
@@ -68,7 +68,7 @@ namespace Mobile_Store.Models
         /// </summary>
         /// <param name="id"></param>
         /// <returns> User type object, with the fetched details </returns>
-        public User SearchUser(int id)
+        public User SearchUser(User user)
         {
             return new User() { ID = Guid.NewGuid(), Name = new Name() { FirstName = "", MiddleName = null, LastName = ""}, Address = new Address() { State = "", City = "", Country = "", ZIP_Code = 0 }, Email = "" };
         }

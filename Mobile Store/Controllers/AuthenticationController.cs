@@ -7,12 +7,16 @@ namespace Mobile_Store.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
+        private Authentication _authentication;
 
-        #region Test
-        [HttpGet(Name = "Test")]
-        public string Get()
+        #region Class Instance Constructor
+        /// <summary>
+        /// Instance constructor to initialize objects
+        /// </summary>
+        /// <param name="authentication"></param>
+        AuthenticationController(Authentication authentication)
         {
-            return "Hello World";
+            _authentication = authentication;
         }
         #endregion
 
@@ -25,7 +29,7 @@ namespace Mobile_Store.Controllers
         [HttpPost("CheckAuthentication")]
         public bool CheckAuthentication([FromBody] User user)
         {
-            return true;
+            return _authentication.CheckAuthentication(user);
         }
         #endregion
 
@@ -38,7 +42,7 @@ namespace Mobile_Store.Controllers
         [HttpPost("ChangeUserCredentials")]
         public bool ChangeUserCredentials([FromBody] User user)
         {
-            return true;
+            return _authentication.ChangeUserCredentials(user);
         }
         #endregion
 
@@ -47,7 +51,7 @@ namespace Mobile_Store.Controllers
         [HttpPost("ResetCredentials")]
         public void ResetCredentials([FromBody] User user)
         {
-
+            _authentication.ResetCredentials(user);
         }
         #endregion
     }

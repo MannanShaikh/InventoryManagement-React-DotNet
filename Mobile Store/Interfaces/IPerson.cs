@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 namespace Mobile_Store.Interfaces
 {
     #region Person Interface
+    /// <summary>
+    /// Person Interface
+    /// </summary>
     public interface IPerson
     {
         public Guid ID { get; set; }

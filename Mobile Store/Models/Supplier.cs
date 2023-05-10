@@ -23,7 +23,7 @@ namespace Mobile_Store.Models
         /// </summary>
         /// <param name="id"></param>
         /// <returns> Boolean Value based on task completion </returns>
-        public bool AddSupplier(int id)
+        public bool AddSupplier(Supplier supplier)
         {
             return true;
         }
@@ -33,7 +33,7 @@ namespace Mobile_Store.Models
         /// </summary>
         /// <param name="id"></param>
         /// <returns> Boolean Value based on task completion </returns>
-        public bool Editsupplier(int id)
+        public bool Editsupplier(Supplier supplier)
         {
             return true;
         }
@@ -43,7 +43,7 @@ namespace Mobile_Store.Models
         /// </summary>
         /// <param name="id"></param>
         /// <returns> Boolean Value based on task completion </returns>
-        public bool Deletesupplier(int id)
+        public bool Deletesupplier(Supplier supplier)
         {
             return true;
         }
@@ -53,7 +53,7 @@ namespace Mobile_Store.Models
         /// </summary>
         /// <param name="id"></param>
         /// <returns> supplier type object, with the fetched details </returns>
-        public Supplier Searchsupplier(int id)
+        public Supplier Searchsupplier(Supplier supplier)
         {
             return new Supplier() { ID = Guid.NewGuid(), Name = new Name() { FirstName = "", MiddleName = null, LastName = ""}, Address = new Address() { State = "", City = "" }, Email = "" };
         }
