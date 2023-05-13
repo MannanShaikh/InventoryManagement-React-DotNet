@@ -35,18 +35,33 @@ namespace Mobile_Store.Models
         /// </summary>
         /// <param name="user"></param>
         /// <returns> Returns true if the user credentials are correct </returns>
-        public bool CheckAuthentication(User user)
+        public User CheckAuthentication(User user)
         {
-            using (sqlCommand = new SqlCommand("PROC NAME", sqlConnection))
+            using (sqlCommand = new SqlCommand("spAuthenticateUser", sqlConnection))
             {
+                User.Role? role = null;
+                bool? permission = null;
+
                 sqlConnection.Open();
                 sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddWithValue("", SqlDbType.NVarChar).Value = user.Name.FirstName;
-                sqlCommand.Parameters.AddWithValue("", SqlDbType.NVarChar).Value = user.Address.City;
-                sqlCommand.ExecuteNonQuery();
+                sqlCommand.Parameters.AddWithValue("@UserName", SqlDbType.NVarChar).Value = user.UserName;
+                sqlCommand.Parameters.AddWithValue("@Password", SqlDbType.NVarChar).Value = user.Password;
+                SqlDataReader dataReader = sqlCommand.ExecuteReader();
+                while(dataReader.Read())
+                {
+                    role = (User.Role)dataReader["RoleId"];
+                    permission = (bool)dataReader["Permission"];
+                }
                 sqlConnection.Close();
+
+                User output = new()
+                {
+                    RoleId = role,
+                    Permission = permission
+                };
+                return output;
             }
-            return true;
+            
         }
 
         /// <summary>

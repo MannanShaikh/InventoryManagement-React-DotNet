@@ -42,6 +42,10 @@ namespace Mobile_Store.Models
             ConnectionString = _singletonDBFactory.DbInstance();
             sqlConnection = new SqlConnection(ConnectionString);
         }
+
+        public User()
+        {
+        }
         #endregion
 
         #region Public Properties
