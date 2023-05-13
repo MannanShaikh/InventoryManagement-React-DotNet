@@ -1,31 +1,25 @@
 ﻿using Mobile_Store.DBFactory;
 using System.Data;
 using System.Data.SqlClient;
+using Mobile_Store.Interfaces;
+using static Mobile_Store.Models.User;
+using System.Security;
+using Mobile_Store.DBContext;
 
 namespace Mobile_Store.Models
 {
-    public class Authentication
+    public class Authentication : IAuthentication
     {
-        #region Private Variables
-        /// <summary>
-        /// Private variables to initialize in constructor
-        /// </summary>
-        private readonly SingletonDBFactory _singletonDBFactory;
-        private readonly string ConnectionString;
-        private readonly SqlConnection sqlConnection;
-        private SqlCommand sqlCommand;
-        #endregion
+        private IDBOperationLibrary _operationLibrary;
 
         #region Class Instance constructor
         /// <summary>
         /// Class Instance constructor
         /// </summary>
         /// <param name="singletonDBFactory"></param>
-        Authentication(SingletonDBFactory singletonDBFactory)
+        public Authentication(IDBOperationLibrary operationLibrary)
         {
-            _singletonDBFactory = singletonDBFactory;
-            ConnectionString = _singletonDBFactory.DbInstance();
-            sqlConnection = new SqlConnection(ConnectionString);
+            _operationLibrary = operationLibrary;
         }
         #endregion
 
@@ -37,29 +31,13 @@ namespace Mobile_Store.Models
         /// <returns> Returns true if the user credentials are correct </returns>
         public User CheckAuthentication(User user)
         {
-            using (sqlCommand = new SqlCommand("[dbo].[spAuthenticateUser]", sqlConnection))
+            if ( user != null && user.UserName != null && user.Password != null )
             {
-                User.Role? role = null;
-                bool? permission = null;
-
-                sqlConnection.Open();
-                sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddWithValue("@UserName", SqlDbType.NVarChar).Value = user.UserName;
-                sqlCommand.Parameters.AddWithValue("@Password", SqlDbType.NVarChar).Value = user.Password;
-                SqlDataReader dataReader = sqlCommand.ExecuteReader();
-                while(dataReader.Read())
-                {
-                    role = (User.Role)dataReader["RoleId"];
-                    permission = (bool)dataReader["Permission"];
-                }
-                sqlConnection.Close();
-
-                User output = new()
-                {
-                    RoleId = role,
-                    Permission = permission
-                };
-                return output;
+                return _operationLibrary.spAuthenticateUser(user);
+            }
+            else
+            {
+                return new User();
             }
             
         }
@@ -71,16 +49,15 @@ namespace Mobile_Store.Models
         /// <returns> Returns true if the task succeeds </returns>
         public bool ChangeUserCredentials(User user)
         {
-            using (sqlCommand = new SqlCommand("[dbo].[spChangeUserCredentials]", sqlConnection))
+            if (user != null && user.UserName != null && user.Password != null)
             {
-                sqlConnection.Open();
-                sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddWithValue("@UserName", SqlDbType.NVarChar).Value = user.UserName;
-                sqlCommand.Parameters.AddWithValue("@Password", SqlDbType.NVarChar).Value = user.Password;
-                sqlCommand.ExecuteNonQuery();
-                sqlConnection.Close();
+                int rowsAffected = _operationLibrary.spChangeUserCredentials(user);
+                return rowsAffected > 0 ? true : false; 
             }
-            return true;
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -89,14 +66,9 @@ namespace Mobile_Store.Models
         /// <param name="user"></param>
         public void ResetCredentials(User user)
         {
-            using (sqlCommand = new SqlCommand("[dbo].[spChangeUserCredentials]", sqlConnection))
+            if (user != null && user.UserName != null)
             {
-                sqlConnection.Open();
-                sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddWithValue("@UserName", SqlDbType.NVarChar).Value = user.UserName;
-                sqlCommand.Parameters.AddWithValue("@Password", SqlDbType.NVarChar).Value = user.Password;
-                sqlCommand.ExecuteNonQuery();
-                sqlConnection.Close();
+                int rowsAffected = _operationLibrary.spChangeUserCredentials(user);
             }
         }
         #endregion

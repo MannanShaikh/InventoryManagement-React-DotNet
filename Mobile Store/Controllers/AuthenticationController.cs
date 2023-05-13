@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Mobile_Store.Interfaces;
 using Mobile_Store.Models;
 
 namespace Mobile_Store.Controllers
@@ -7,14 +8,14 @@ namespace Mobile_Store.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        private Authentication _authentication;
+        private IAuthentication _authentication;
 
         #region Class Instance Constructor
         /// <summary>
         /// Instance constructor to initialize objects
         /// </summary>
         /// <param name="authentication"></param>
-        AuthenticationController(Authentication authentication)
+        public AuthenticationController(IAuthentication authentication)
         {
             _authentication = authentication;
         }
@@ -27,7 +28,7 @@ namespace Mobile_Store.Controllers
         /// <param name="user"> User type object </param>
         /// <returns> Returns true if user is authentic/genuine </returns>
         [HttpPost("CheckAuthentication")]
-        public bool CheckAuthentication([FromBody] User user)
+        public User CheckAuthentication([FromBody] User user)
         {
             return _authentication.CheckAuthentication(user);
         }

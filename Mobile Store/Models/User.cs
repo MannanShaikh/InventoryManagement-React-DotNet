@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 
 namespace Mobile_Store.Models
 {
-    public class User : IPerson
+    public class User : IPerson, IUser
     {
         #region LookUpTable
         /// <summary>
@@ -25,10 +25,7 @@ namespace Mobile_Store.Models
         /// <summary>
         /// Private variables to initialize in constructor
         /// </summary>
-        private readonly SingletonDBFactory _singletonDBFactory;
-        private readonly string ConnectionString;
-        private readonly SqlConnection sqlConnection;
-        private SqlCommand sqlCommand;
+        private IDBOperationLibrary _operationLibrary;
         #endregion
 
         #region Class Instance constructor
@@ -36,16 +33,11 @@ namespace Mobile_Store.Models
         /// Class Instance constructor
         /// </summary>
         /// <param name="singletonDBFactory"></param>
-        User(SingletonDBFactory singletonDBFactory)
+        public User(IDBOperationLibrary operationLibrary)
         {
-            _singletonDBFactory = singletonDBFactory;
-            ConnectionString = _singletonDBFactory.DbInstance();
-            sqlConnection = new SqlConnection(ConnectionString);
+            _operationLibrary = operationLibrary;
         }
-
-        public User()
-        {
-        }
+        public User() { }
         #endregion
 
         #region Public Properties
@@ -71,11 +63,11 @@ namespace Mobile_Store.Models
         /// <returns> Boolean Value based on task completion </returns>
         public bool AddUser(User user)
         {
-            using (sqlCommand = new SqlCommand("[dbo].[spAddUserRecord]", sqlConnection))
+            using (sqlCommand = new SqlCommand("spAddUserRecord", sqlConnection))
             {
                 sqlConnection.Open();
                 sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddWithValue("@Id", SqlDbType.VarChar).Value = user.ID;
+                sqlCommand.Parameters.AddWithValue("@Id", SqlDbType.VarChar).Value = Guid.NewGuid().ToString();
                 sqlCommand.Parameters.AddWithValue("@FirstName", SqlDbType.VarChar).Value = user.Name.FirstName;
                 sqlCommand.Parameters.AddWithValue("@MiddleName", SqlDbType.VarChar).Value = user.Name.MiddleName;
                 sqlCommand.Parameters.AddWithValue("@LastName", SqlDbType.VarChar).Value = user.Name.LastName;
@@ -102,11 +94,13 @@ namespace Mobile_Store.Models
         /// <returns> Boolean Value based on task completion </returns>
         public bool EditUser(User user)
         {
-            using (sqlCommand = new SqlCommand("[dbo].[spEditUserRecord]", sqlConnection))
+            using (sqlCommand = new SqlCommand("spEditUserRecord", sqlConnection))
             {
                 sqlConnection.Open();
                 sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddWithValue("@Id", SqlDbType.VarChar).Value = user.ID;
+                
+                //DEPRECATE -- UPDATE SP ACCORDINGLY
+                //sqlCommand.Parameters.AddWithValue("@Id", SqlDbType.VarChar).Value = user.ID;
                 sqlCommand.Parameters.AddWithValue("@FirstName", SqlDbType.VarChar).Value = user.Name.FirstName;
                 sqlCommand.Parameters.AddWithValue("@MiddleName", SqlDbType.VarChar).Value = user.Name.MiddleName;
                 sqlCommand.Parameters.AddWithValue("@LastName", SqlDbType.VarChar).Value = user.Name.LastName;

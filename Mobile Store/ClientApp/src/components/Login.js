@@ -1,8 +1,11 @@
 ﻿import { useState, useEffect } from 'react';
+import { Role } from '../RoleEnumeration';
 
 export default function Login() {
 
     const [stringData, setstringData] = useState();
+
+    /*Role.Admin*/
 
     function Authenticate() {
 

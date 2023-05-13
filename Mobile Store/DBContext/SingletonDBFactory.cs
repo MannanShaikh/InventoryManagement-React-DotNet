@@ -1,22 +1,21 @@
 ﻿using System.Data.SqlClient;
 using Mobile_Store.Models;
 using Mobile_Store.Structures;
+using Mobile_Store.Interfaces;
 
 namespace Mobile_Store.DBFactory
 {
-    public class SingletonDBFactory
+    public class SingletonDBFactory : ISingletonDBFactory
     {
-        string? instance;
+        string? instance = null;
         private readonly IConfiguration _configuration;
-        // Constructor is 'protected'
-        protected SingletonDBFactory()
+
+        public SingletonDBFactory(IConfiguration configuration)
         {
-            instance = null;
+            _configuration = configuration;
         }
         public string DbInstance()
         {
-            // Uses lazy initialization.
-            // Note: this is not thread safe.
             if (instance == null)
             {
                 instance = _configuration.GetConnectionString("DefaultConnection");
