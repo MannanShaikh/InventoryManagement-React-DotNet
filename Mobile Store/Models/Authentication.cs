@@ -37,7 +37,7 @@ namespace Mobile_Store.Models
         /// <returns> Returns true if the user credentials are correct </returns>
         public User CheckAuthentication(User user)
         {
-            using (sqlCommand = new SqlCommand("spAuthenticateUser", sqlConnection))
+            using (sqlCommand = new SqlCommand("[dbo].[spAuthenticateUser]", sqlConnection))
             {
                 User.Role? role = null;
                 bool? permission = null;
@@ -71,12 +71,12 @@ namespace Mobile_Store.Models
         /// <returns> Returns true if the task succeeds </returns>
         public bool ChangeUserCredentials(User user)
         {
-            using (sqlCommand = new SqlCommand("PROC NAME", sqlConnection))
+            using (sqlCommand = new SqlCommand("[dbo].[spChangeUserCredentials]", sqlConnection))
             {
                 sqlConnection.Open();
                 sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddWithValue("", SqlDbType.NVarChar).Value = user.Name.FirstName;
-                sqlCommand.Parameters.AddWithValue("", SqlDbType.NVarChar).Value = user.Address.City;
+                sqlCommand.Parameters.AddWithValue("@UserName", SqlDbType.NVarChar).Value = user.UserName;
+                sqlCommand.Parameters.AddWithValue("@Password", SqlDbType.NVarChar).Value = user.Password;
                 sqlCommand.ExecuteNonQuery();
                 sqlConnection.Close();
             }
@@ -89,12 +89,12 @@ namespace Mobile_Store.Models
         /// <param name="user"></param>
         public void ResetCredentials(User user)
         {
-            using (sqlCommand = new SqlCommand("PROC NAME", sqlConnection))
+            using (sqlCommand = new SqlCommand("[dbo].[spChangeUserCredentials]", sqlConnection))
             {
                 sqlConnection.Open();
                 sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddWithValue("", SqlDbType.NVarChar).Value = user.Name.FirstName;
-                sqlCommand.Parameters.AddWithValue("", SqlDbType.NVarChar).Value = user.Address.City;
+                sqlCommand.Parameters.AddWithValue("@UserName", SqlDbType.NVarChar).Value = user.UserName;
+                sqlCommand.Parameters.AddWithValue("@Password", SqlDbType.NVarChar).Value = user.Password;
                 sqlCommand.ExecuteNonQuery();
                 sqlConnection.Close();
             }
