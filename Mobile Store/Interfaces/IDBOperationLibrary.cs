@@ -8,5 +8,7 @@ namespace Mobile_Store.Interfaces
     {
         public User spAuthenticateUser(User user);
         public int spChangeUserCredentials(User user);
+        public int spAddUserRecord(User user);
+        public int spEditUserRecord(User user);
     }
 }

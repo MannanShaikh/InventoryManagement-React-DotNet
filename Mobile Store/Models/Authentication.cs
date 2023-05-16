@@ -10,7 +10,12 @@ namespace Mobile_Store.Models
 {
     public class Authentication : IAuthentication
     {
+        #region Private Variables
+        /// <summary>
+        /// Private variables to initialize in constructor
+        /// </summary>
         private IDBOperationLibrary _operationLibrary;
+        #endregion
 
         #region Class Instance constructor
         /// <summary>
@@ -21,6 +26,8 @@ namespace Mobile_Store.Models
         {
             _operationLibrary = operationLibrary;
         }
+
+        public Authentication() { }
         #endregion
 
         #region Public Methods

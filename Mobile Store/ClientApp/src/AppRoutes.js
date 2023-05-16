@@ -1,10 +1,15 @@
-import { FetchData } from "./components/FetchData";
-import Test from "./components/Test";
+import { About } from "./components/About";
+import AdminDashboard from "./components/Admin/AdminDashboard";
+import { Test } from "./components/Test";
 
 const AppRoutes = [
     {
-        path: '/fetch-data',
-        element: <FetchData />
+        path: '/admin-dashboard',
+        element: <AdminDashboard />
+    },
+    {
+        path: '/',
+        element: <About />
     },
     {
         path: '/test-fetch',
