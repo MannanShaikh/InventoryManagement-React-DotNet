@@ -1,37 +1,47 @@
-﻿import { useState, useEffect } from 'react';
+﻿import { useState } from 'react';
 import { Role } from '../RoleEnumeration';
+import { Redirect } from 'react-router-dom';
 
 export default function Login() {
 
-    const [stringData, setstringData] = useState();
+    async function Authenticate() {
 
-    /*Role.Admin*/
+        let username = document.getElementById("username").value;
+        let password = document.getElementById("password").value
+        let credentials = {
+            "username": username,
+            "password": password
+        };
 
-    function Authenticate() {
+        const response = await fetch('/api/authentication/CheckAuthentication', {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(credentials)
+        })
 
-        let username = document.getElementById("aadhar").value;
-        let password = document.getElementById("pwd").value
-        let credentials = { username: username, password: password };
+        const json = await response.json();
 
-        //fetch('api/authentication/', {
-        //    method: "GET"
-        //    //body: JSON.stringify(credentials)
-        //})
-        //    .then(json => setstringData(json))
-        //    .then(json => console.log(json))
-        //    .catch(error => console.error(error));
+        if (json.roleId == Role.Admin) {
+            return <Redirect to='/admin-dashboard' />
+        }
+        else {
+            return <Redirect to='/admin-dashboard' />
+        }
     }
-    
+
     return (
         <div className="container">
             <div className="col-md-12">
                 <div className="form-group">
-                    <label htmlFor="aadhar"><b>AADHAR NUMBER</b></label>
-                    <input type="number" className="form-control" id="aadhar" max="12" />
+                    <label htmlFor="username"><b>USER NAME</b></label>
+                    <input type="text" className="form-control" id="username" max="12" />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="pwd"><b>PASSWORD</b></label>
-                    <input type="password" className="form-control" id="pwd" />
+                    <label htmlFor="password"><b>PASSWORD</b></label>
+                    <input type="password" className="form-control" id="password" />
                     {/*<i className="glyphicon glyphicon-eye-open"></i>*/}
                 </div>
                 <button onClick={Authenticate} type="button" className="btn btn-primary"><b>LOGIN</b></button>

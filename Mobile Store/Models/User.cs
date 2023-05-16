@@ -63,28 +63,15 @@ namespace Mobile_Store.Models
         /// <returns> Boolean Value based on task completion </returns>
         public bool AddUser(User user)
         {
-            using (sqlCommand = new SqlCommand("spAddUserRecord", sqlConnection))
+            if (user != null)
             {
-                sqlConnection.Open();
-                sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddWithValue("@Id", SqlDbType.VarChar).Value = Guid.NewGuid().ToString();
-                sqlCommand.Parameters.AddWithValue("@FirstName", SqlDbType.VarChar).Value = user.Name.FirstName;
-                sqlCommand.Parameters.AddWithValue("@MiddleName", SqlDbType.VarChar).Value = user.Name.MiddleName;
-                sqlCommand.Parameters.AddWithValue("@LastName", SqlDbType.VarChar).Value = user.Name.LastName;
-                sqlCommand.Parameters.AddWithValue("@Country", SqlDbType.VarChar).Value = user.Address.Country;
-                sqlCommand.Parameters.AddWithValue("@State", SqlDbType.VarChar).Value = user.Address.State;
-                sqlCommand.Parameters.AddWithValue("@City", SqlDbType.VarChar).Value = user.Address.City;
-                sqlCommand.Parameters.AddWithValue("@ZipCode", SqlDbType.VarChar).Value = user.Address.ZIP_Code;
-                sqlCommand.Parameters.AddWithValue("@Email", SqlDbType.VarChar).Value = user.Email;
-                sqlCommand.Parameters.AddWithValue("@Role", SqlDbType.VarChar).Value = user.RoleId;
-                sqlCommand.Parameters.AddWithValue("@DateOfBirth", SqlDbType.Date).Value = user.DateOfBirth;
-                sqlCommand.Parameters.AddWithValue("@Permission", SqlDbType.Bit).Value = user.Permission;
-                sqlCommand.Parameters.AddWithValue("@UserName", SqlDbType.VarChar).Value = user.UserName;
-                sqlCommand.Parameters.AddWithValue("@Password", SqlDbType.VarChar).Value = user.Password;
-                sqlCommand.ExecuteNonQuery();
-                sqlConnection.Close();
+                int rowsAffected = _operationLibrary.spAddUserRecord(user);
+                return rowsAffected > 0 ? true : false;
             }
-            return true;
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -94,30 +81,15 @@ namespace Mobile_Store.Models
         /// <returns> Boolean Value based on task completion </returns>
         public bool EditUser(User user)
         {
-            using (sqlCommand = new SqlCommand("spEditUserRecord", sqlConnection))
+            if (user != null && user.UserName != null & user.Password != null)
             {
-                sqlConnection.Open();
-                sqlCommand.CommandType = CommandType.StoredProcedure;
-                
-                //DEPRECATE -- UPDATE SP ACCORDINGLY
-                //sqlCommand.Parameters.AddWithValue("@Id", SqlDbType.VarChar).Value = user.ID;
-                sqlCommand.Parameters.AddWithValue("@FirstName", SqlDbType.VarChar).Value = user.Name.FirstName;
-                sqlCommand.Parameters.AddWithValue("@MiddleName", SqlDbType.VarChar).Value = user.Name.MiddleName;
-                sqlCommand.Parameters.AddWithValue("@LastName", SqlDbType.VarChar).Value = user.Name.LastName;
-                sqlCommand.Parameters.AddWithValue("@Country", SqlDbType.VarChar).Value = user.Address.Country;
-                sqlCommand.Parameters.AddWithValue("@State", SqlDbType.VarChar).Value = user.Address.State;
-                sqlCommand.Parameters.AddWithValue("@City", SqlDbType.VarChar).Value = user.Address.City;
-                sqlCommand.Parameters.AddWithValue("@ZipCode", SqlDbType.VarChar).Value = user.Address.ZIP_Code;
-                sqlCommand.Parameters.AddWithValue("@Email", SqlDbType.VarChar).Value = user.Email;
-                sqlCommand.Parameters.AddWithValue("@Role", SqlDbType.VarChar).Value = user.RoleId;
-                sqlCommand.Parameters.AddWithValue("@DateOfBirth", SqlDbType.Date).Value = user.DateOfBirth;
-                sqlCommand.Parameters.AddWithValue("@Permission", SqlDbType.Bit).Value = user.Permission;
-                sqlCommand.Parameters.AddWithValue("@UserName", SqlDbType.VarChar).Value = user.UserName;
-                sqlCommand.Parameters.AddWithValue("@Password", SqlDbType.VarChar).Value = user.Password;
-                sqlCommand.ExecuteNonQuery();
-                sqlConnection.Close();
+                int rowsAffected = _operationLibrary.spAddUserRecord(user);
+                return rowsAffected > 0 ? true : false;
             }
-            return true;
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -127,15 +99,6 @@ namespace Mobile_Store.Models
         /// <returns> Boolean Value based on task completion </returns>
         public bool DeleteUser(User user)
         {
-            using (sqlCommand = new SqlCommand("PROC NAME", sqlConnection))
-            {
-                sqlConnection.Open();
-                sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddWithValue("", SqlDbType.NVarChar).Value = user.Name.FirstName;
-                sqlCommand.Parameters.AddWithValue("", SqlDbType.NVarChar).Value = user.Address.City;
-                sqlCommand.ExecuteNonQuery();
-                sqlConnection.Close();
-            }
             return true;
         }
 
@@ -146,15 +109,6 @@ namespace Mobile_Store.Models
         /// <returns> User type object, with the fetched details </returns>
         public User SearchUser(User user)
         {
-            using (sqlCommand = new SqlCommand("PROC NAME", sqlConnection))
-            {
-                sqlConnection.Open();
-                sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddWithValue("", SqlDbType.NVarChar).Value = user.Name.FirstName;
-                sqlCommand.Parameters.AddWithValue("", SqlDbType.NVarChar).Value = user.Address.City;
-                sqlCommand.ExecuteNonQuery();
-                sqlConnection.Close();
-            }
             return new User() { ID = Guid.NewGuid(), Name = new Name() { FirstName = "", MiddleName = null, LastName = ""}, Address = new Address() { State = "", City = "", Country = "", ZIP_Code = 0 }, Email = "" };
         }
         #endregion

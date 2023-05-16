@@ -28,6 +28,7 @@ namespace Mobile_Store.Controllers
         /// <param name="user"> User type object </param>
         /// <returns> Returns true if user is authentic/genuine </returns>
         [HttpPost("CheckAuthentication")]
+        [Route("CheckAuthentication")]
         public User CheckAuthentication([FromBody] User user)
         {
             return _authentication.CheckAuthentication(user);
