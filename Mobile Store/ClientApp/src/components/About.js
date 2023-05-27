@@ -1,4 +1,4 @@
-﻿export default function About() {
+﻿export function About() {
     return (
         <div class="container-fluid">
             <>
@@ -37,8 +37,7 @@
                                         <li>To update an employee, enter the contact number of the employee to get the employee details to update. </li>
                                     </ul>
                                 </li>
-                                <li>User can check for reports about the employees, products and suppliers in the <b>reports</b>
-                                    section.</li>
+                                <li>User can check for reports about the employees, products and suppliers in the <b>reports</b> section.</li>
                             </ol>
                         </p>
                     </p>

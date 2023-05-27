@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Route, Routes } from 'react-router-dom';
-import AppRoutes from './AppRoutes';
-import { Layout } from './components/Layout';
-import Login from './components/Login';
+import { Routes, Route } from "react-router-dom";
+import { Login } from './components/Login';
+import { ForgotPassword } from './components/ForgotPassword';
+import { AdminDashboard } from './components/Admin/AdminDashboard';
+import { UserDashboard } from './components/User/UserDashboard';
 import './custom.css';
 
 export default class App extends Component {
@@ -10,7 +11,12 @@ export default class App extends Component {
 
     render() {
         return (
-            <Login />
+            <Routes>
+                <Route index exact path='/' element={<Login />} />
+                <Route exact path='/AdminPanel/*' element={<AdminDashboard />} />
+                <Route exact path='/UserPanel/*' element={<UserDashboard />} />
+                <Route exact path='/forgotPassword' element={<ForgotPassword />} />
+            </Routes>
         );
     }
 }
